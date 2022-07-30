@@ -13,6 +13,7 @@
 // ==/UserScript==
 
 let settingsDisplayed = false;
+let tosDisplayed = false;
 
 const alertSound = new Audio("https://toonhq.org/static/dist/media/member-joined.bd163314.mp3");
 
@@ -122,9 +123,40 @@ function settingsButtonClicked() {
     settingsDisplayed = !settingsDisplayed;
 }
 
+function tosButtonClicked() {
+    if (!tosDisplayed) {
+        let div = document.createElement('div');
+        div.id = 'assistant-tos-div';
+        div.style = `
+            background-color: rgb(25, 106, 67);
+        `
+
+        let container = document.createElement('div');
+        container.classList.add('container');
+        container.style.padding = '10px';
+
+        let heading = document.createElement('h2');
+        heading.innerHTML = 'TOS';
+        container.appendChild(heading);
+
+        let tos = document.createElement('img');
+        tos.src = 'https://cdn.discordapp.com/emojis/904122992315998238.gif?size=96&quality=lossless';
+        container.appendChild(tos);
+
+        div.appendChild(container);
+        let header = document.getElementsByClassName('sl__header')[0];
+        header.insertAdjacentElement('afterend', div);
+    }
+    else {
+        document.getElementById('assistant-tos-div').remove();
+    }
+    tosDisplayed = !tosDisplayed;
+}
+
 // generates all the html elements for the assistant
 function createElements() {
     let navbarList = document.getElementsByClassName('navbar-nav ml-auto')[0];
+
     let settingsNav = document.createElement('li');
     settingsNav.className = 'blue';
     let a = document.createElement('a');
@@ -133,6 +165,15 @@ function createElements() {
     a.innerHTML = '<span>HQA Settings</span>';
     settingsNav.appendChild(a);
     navbarList.appendChild(settingsNav);
+
+    let tosNav = document.createElement('li');
+    tosNav.className = 'blue';
+    a = document.createElement('a');
+    a.role = 'button';
+    a.onclick = tosButtonClicked;
+    a.innerHTML = '<span>TOS</span>';
+    tosNav.appendChild(a);
+    navbarList.appendChild(tosNav);
 }
 
 function getCurrentToons() {
