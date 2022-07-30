@@ -54,6 +54,7 @@ function settingsButtonClicked() {
 
         let container = document.createElement('div');
         container.classList.add('container');
+        container.style.padding = '10px';
 
         let heading = document.createElement('h2');
         heading.innerHTML = 'HQ Assistant Settings';
